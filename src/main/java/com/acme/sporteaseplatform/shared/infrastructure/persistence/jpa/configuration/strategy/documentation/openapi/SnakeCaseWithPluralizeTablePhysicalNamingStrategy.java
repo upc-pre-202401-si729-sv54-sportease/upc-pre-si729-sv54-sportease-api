@@ -1,4 +1,4 @@
-package com.acme.sporteaseplatform.shared;
+package com.acme.sporteaseplatform.shared.infrastructure.persistence.jpa.configuration.strategy.documentation.openapi;
 
 import org.hibernate.boot.model.naming.Identifier;
 import org.hibernate.boot.model.naming.PhysicalNamingStrategy;

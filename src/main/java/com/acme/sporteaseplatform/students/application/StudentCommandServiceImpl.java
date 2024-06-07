@@ -1,6 +1,7 @@
 package com.acme.sporteaseplatform.students.application;
 
 import com.acme.sporteaseplatform.students.domain.model.aggregates.Student;
+import com.acme.sporteaseplatform.students.domain.model.commands.CreateStudentByAdminCommand;
 import com.acme.sporteaseplatform.students.domain.model.commands.CreateStudentCommand;
 import com.acme.sporteaseplatform.students.domain.services.StudentCommandService;
 import com.acme.sporteaseplatform.students.infrastructure.persistance.jpa.StudentRepository;
@@ -25,5 +26,10 @@ public class StudentCommandServiceImpl implements StudentCommandService {
         var student = new Student(command);
         studentRepository.save(student);
         return Optional.of(student);
+    }
+
+    @Override
+    public Optional<Student> handle(CreateStudentByAdminCommand command) {
+        return Optional.empty();
     }
 }

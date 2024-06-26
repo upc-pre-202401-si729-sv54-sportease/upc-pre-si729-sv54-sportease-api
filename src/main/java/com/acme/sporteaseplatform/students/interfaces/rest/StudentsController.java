@@ -1,6 +1,7 @@
 package com.acme.sporteaseplatform.students.interfaces.rest;
 
 
+import com.acme.sporteaseplatform.students.domain.model.commands.DeleteStudentCommand;
 import com.acme.sporteaseplatform.students.domain.model.queries.*;
 import com.acme.sporteaseplatform.students.domain.services.StudentCommandService;
 import com.acme.sporteaseplatform.students.domain.services.StudentQueryService;
@@ -43,6 +44,13 @@ public class StudentsController {
         if (student.isEmpty()) return  ResponseEntity.badRequest().build();
         var profileResource = StudentResourceFromEntityAssembler.toResourceFromEntity(student.get());
         return ResponseEntity.ok(profileResource);
+    }
+
+    @DeleteMapping("/identifier/{studentId}")
+    public ResponseEntity<?> deleteStudent(@PathVariable Long studentId) {
+        var deleteStudentCommand = new DeleteStudentCommand(studentId);
+        studentCommandService.handle(deleteStudentCommand);
+        return ResponseEntity.ok("Student with give id successfuly deleted");
     }
 
     @GetMapping("/{studentCategory}")

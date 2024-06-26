@@ -2,6 +2,7 @@ package com.acme.sporteaseplatform.administrators.application.internal;
 
 import com.acme.sporteaseplatform.administrators.domain.model.aggregates.Administrator;
 import com.acme.sporteaseplatform.administrators.domain.model.commands.CreateAdministratorCommand;
+import com.acme.sporteaseplatform.administrators.domain.model.commands.DeleteAdministratorCommand;
 import com.acme.sporteaseplatform.administrators.domain.services.AdministratorCommandService;
 import com.acme.sporteaseplatform.administrators.infraestructure.persistence.jpa.repositories.AdministratorRepository;
 import org.springframework.stereotype.Service;
@@ -24,5 +25,17 @@ public class AdministratorCommandServiceImpl implements AdministratorCommandServ
         var administrator = new Administrator(command);
         administratorRepository.save(administrator);
         return Optional.of(administrator);
+    }
+
+    @Override
+    public void handle(DeleteAdministratorCommand command) {
+        if (!administratorRepository.existsById(command.administratorId())) {
+            throw new IllegalArgumentException("Administrator does not exits");
+        }
+        try {
+            administratorRepository.deleteById(command.administratorId());
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error while deleting administrator: "+e.getMessage());
+        }
     }
 }

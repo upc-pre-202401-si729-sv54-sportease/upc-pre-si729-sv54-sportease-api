@@ -3,6 +3,7 @@ package com.acme.sporteaseplatform.students.application;
 import com.acme.sporteaseplatform.students.domain.model.aggregates.Student;
 import com.acme.sporteaseplatform.students.domain.model.commands.CreateStudentByAdminCommand;
 import com.acme.sporteaseplatform.students.domain.model.commands.CreateStudentCommand;
+import com.acme.sporteaseplatform.students.domain.model.commands.DeleteStudentCommand;
 import com.acme.sporteaseplatform.students.domain.services.StudentCommandService;
 import com.acme.sporteaseplatform.students.infrastructure.persistance.jpa.StudentRepository;
 import org.springframework.stereotype.Service;
@@ -32,4 +33,18 @@ public class StudentCommandServiceImpl implements StudentCommandService {
     public Optional<Student> handle(CreateStudentByAdminCommand command) {
         return Optional.empty();
     }
+
+    @Override
+    public void handle(DeleteStudentCommand command) {
+        if (!studentRepository.existsById(command.studentId())) {
+            throw new IllegalArgumentException("Student does not exits");
+        }
+        try {
+            studentRepository.deleteById(command.studentId());
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Error while deleting student: "+e.getMessage());
+        }
+    }
+
+
 }

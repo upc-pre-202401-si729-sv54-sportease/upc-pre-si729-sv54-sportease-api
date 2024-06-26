@@ -1,5 +1,6 @@
 package com.acme.sporteaseplatform.administrators.interfaces;
 
+import com.acme.sporteaseplatform.administrators.domain.model.commands.DeleteAdministratorCommand;
 import com.acme.sporteaseplatform.administrators.domain.model.queries.GetAdministratorByEmailQuery;
 import com.acme.sporteaseplatform.administrators.domain.model.queries.GetAdministratorByIdQuery;
 import com.acme.sporteaseplatform.administrators.domain.model.queries.GetAllAdministratorsQuery;
@@ -44,6 +45,13 @@ public class AdministratorController {
         if (administrator.isEmpty()) return  ResponseEntity.badRequest().build();
         var profileResource = AdministratorResourceFromEntityAssembler.toResourceFromEntity(administrator.get());
         return ResponseEntity.ok(profileResource);
+    }
+
+    @DeleteMapping("/identifier/{administratorId}")
+    public ResponseEntity<?> deleteAdministrator(@PathVariable Long administratorId) {
+        var deleteAdministratorCommand = new DeleteAdministratorCommand(administratorId);
+        administratorCommandService.handle(deleteAdministratorCommand);
+        return ResponseEntity.ok("Administrator with give id successfuly deleted");
     }
 
     @GetMapping("/{email}")

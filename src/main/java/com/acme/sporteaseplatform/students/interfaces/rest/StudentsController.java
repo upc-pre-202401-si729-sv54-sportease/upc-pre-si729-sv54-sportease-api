@@ -1,10 +1,7 @@
 package com.acme.sporteaseplatform.students.interfaces.rest;
 
 
-import com.acme.sporteaseplatform.students.domain.model.queries.GetAllStudentsByCategoryQuery;
-import com.acme.sporteaseplatform.students.domain.model.queries.GetAllStudentsQuery;
-import com.acme.sporteaseplatform.students.domain.model.queries.GetAllStudentsWithBirthdayTodayQuery;
-import com.acme.sporteaseplatform.students.domain.model.queries.GetAllStudentsWithDuePaymentQuery;
+import com.acme.sporteaseplatform.students.domain.model.queries.*;
 import com.acme.sporteaseplatform.students.domain.services.StudentCommandService;
 import com.acme.sporteaseplatform.students.domain.services.StudentQueryService;
 import com.acme.sporteaseplatform.students.interfaces.rest.resources.CreateStudentResource;
@@ -37,6 +34,15 @@ public class StudentsController {
         if (student.isEmpty()) return ResponseEntity.badRequest().build();
         var studentResource = StudentResourceFromEntityAssembler.toResourceFromEntity(student.get());
         return new ResponseEntity<>(studentResource, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/identifier/{Id}")
+    public ResponseEntity<StudentResource> getStudentById(@PathVariable Long Id) {
+        var getStudentByIdQuery = new GetStudentByIdQuery(Id);
+        var student = studentQueryService.handle(getStudentByIdQuery);
+        if (student.isEmpty()) return  ResponseEntity.badRequest().build();
+        var profileResource = StudentResourceFromEntityAssembler.toResourceFromEntity(student.get());
+        return ResponseEntity.ok(profileResource);
     }
 
     @GetMapping("/{studentCategory}")

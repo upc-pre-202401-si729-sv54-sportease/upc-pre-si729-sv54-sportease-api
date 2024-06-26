@@ -37,7 +37,7 @@ public class AdministratorController {
         return new ResponseEntity<>(administratorResource, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{Id}")
+    @GetMapping("/identifier/{Id}")
     public ResponseEntity<AdministratorResource> getAdministratorById(@PathVariable Long Id) {
         var getAdministratorByIdQuery = new GetAdministratorByIdQuery(Id);
         var administrator = administratorQueryService.handle(getAdministratorByIdQuery);

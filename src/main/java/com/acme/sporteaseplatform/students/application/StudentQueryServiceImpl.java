@@ -1,15 +1,13 @@
 package com.acme.sporteaseplatform.students.application;
 
 import com.acme.sporteaseplatform.students.domain.model.aggregates.Student;
-import com.acme.sporteaseplatform.students.domain.model.queries.GetAllStudentsByCategoryQuery;
-import com.acme.sporteaseplatform.students.domain.model.queries.GetAllStudentsQuery;
-import com.acme.sporteaseplatform.students.domain.model.queries.GetAllStudentsWithBirthdayTodayQuery;
-import com.acme.sporteaseplatform.students.domain.model.queries.GetAllStudentsWithDuePaymentQuery;
+import com.acme.sporteaseplatform.students.domain.model.queries.*;
 import com.acme.sporteaseplatform.students.domain.services.StudentQueryService;
 import com.acme.sporteaseplatform.students.infrastructure.persistance.jpa.StudentRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentQueryServiceImpl implements StudentQueryService {
@@ -37,5 +35,10 @@ public class StudentQueryServiceImpl implements StudentQueryService {
     @Override
     public List<Student> handle(GetAllStudentsWithDuePaymentQuery query) {
         return studentRepository.findAllByPaymentDueDateBefore(query.currentDate());
+    }
+
+    @Override
+    public Optional<Student> handle(GetStudentByIdQuery query) {
+        return studentRepository.findById(query.id());
     }
 }

@@ -12,7 +12,7 @@ public class SportEasePlatformApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SportEasePlatformApplication.class, args);
 	}
-
+	
 	@Configuration
 	public static class CorsConfig implements WebMvcConfigurer {
 		@Override
